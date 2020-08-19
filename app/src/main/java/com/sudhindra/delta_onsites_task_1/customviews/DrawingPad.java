@@ -5,30 +5,34 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.core.view.MotionEventCompat;
+import androidx.core.util.Pair;
+
+import com.sudhindra.delta_onsites_task_1.R;
 
 import java.util.ArrayList;
 
 public class DrawingPad extends View {
 
-    private Path path;
-    private Paint paint;
+    private ArrayList<Pair<Path, Paint>> allPairs;
+    private boolean eraserOn;
 
     private DrawingPadListener listener;
 
     public interface DrawingPadListener {
-        void onPathChanged(Path path);
+        void onDrawingChanged(ArrayList<Pair<Path, Paint>> newList);
     }
 
-    public void setPath(Path path) {
-        this.path = path;
+    public void setEraserOn(boolean eraserOn) {
+        this.eraserOn = eraserOn;
+    }
+
+    public void setAllPairs(ArrayList<Pair<Path, Paint>> allPairs) {
+        this.allPairs = allPairs;
         invalidate();
     }
 
@@ -39,21 +43,17 @@ public class DrawingPad extends View {
     public DrawingPad(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        path = new Path();
-
-        paint = new Paint();
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(5f);
+        allPairs = new ArrayList<>();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawPath(path, paint);
+        for (Pair<Path, Paint> pair : allPairs) {
+            assert pair.first != null;
+            assert pair.second != null;
+            canvas.drawPath(pair.first, pair.second);
+        }
     }
 
     @Override
@@ -62,17 +62,50 @@ public class DrawingPad extends View {
         float y = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                path.moveTo(x, y);
+                if (!eraserOn)
+                    allPairs.add(getDrawingPair(x, y));
+                else
+                    allPairs.add(getEraserPair(x, y));
                 break;
             case MotionEvent.ACTION_MOVE:
-                path.lineTo(x, y);
+                allPairs.get(allPairs.size() - 1).first.lineTo(x, y);
                 break;
             case MotionEvent.ACTION_UP:
                 break;
             default:
                 return false;
         }
-        listener.onPathChanged(path);
+        listener.onDrawingChanged(allPairs);
         return true;
+    }
+
+    private Pair<Path, Paint> getDrawingPair(float x, float y) {
+        Path path;
+        Paint paint;
+        path = new Path();
+        path.moveTo(x, y);
+        paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(5f);
+        return new Pair<>(path, paint);
+    }
+
+    private Pair<Path, Paint> getEraserPair(float x, float y) {
+        Path eraserPath;
+        Paint eraserPaint;
+        eraserPath = new Path();
+        eraserPath.moveTo(x, y);
+        eraserPaint = new Paint();
+        eraserPaint.setColor(getContext().getResources().getColor(R.color.scribblePadColor));
+        eraserPaint.setStyle(Paint.Style.STROKE);
+        eraserPaint.setStrokeCap(Paint.Cap.ROUND);
+        eraserPaint.setStrokeJoin(Paint.Join.ROUND);
+        eraserPaint.setAntiAlias(true);
+        eraserPaint.setStrokeWidth(30f);
+        return new Pair<>(eraserPath, eraserPaint);
     }
 }

@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sudhindra.delta_onsites_task_1.R;
 import com.sudhindra.delta_onsites_task_1.databinding.Fragment2Binding;
 import com.sudhindra.delta_onsites_task_1.viewmodels.SharedViewModel;
 
@@ -39,7 +38,8 @@ public class Fragment2 extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel.getLivePath().observe(requireActivity(), path -> binding.drawingPad2.setPath(path));
+        viewModel.getEraserOn().observe(requireActivity(), eraserOn -> binding.drawingPad2.setEraserOn(eraserOn));
+        viewModel.getAllPairs().observe(requireActivity(), newPairs -> binding.drawingPad2.setAllPairs(newPairs));
     }
 
     @Override
