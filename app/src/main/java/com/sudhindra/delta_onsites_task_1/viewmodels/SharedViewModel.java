@@ -4,7 +4,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 import androidx.core.util.Pair;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.sudhindra.delta_onsites_task_1.customviews.DrawingPad;
@@ -13,33 +12,37 @@ import java.util.ArrayList;
 
 public class SharedViewModel extends ViewModel {
 
-    private MutableLiveData<ArrayList<Pair<Path, Paint>>> allPairs = new MutableLiveData<>();
-    private MutableLiveData<Boolean> eraserOn = new MutableLiveData<>();
-    private MutableLiveData<Integer> colorIndex = new MutableLiveData<>();
+    private ArrayList<Pair<Path, Paint>> allPairs = new ArrayList<>();
 
-    public DrawingPad.DrawingPadListener listener = newList -> allPairs.setValue(newList);
+    private SharedListener sharedListener;
+    public DrawingPad.DrawingPadListener drawingPadListener = this::setAllPairs;
 
-    public MutableLiveData<ArrayList<Pair<Path, Paint>>> getAllPairs() {
+    public interface SharedListener {
+        void onPairsChanged(ArrayList<Pair<Path, Paint>> pairs);
+
+        void onEraserChanged(boolean on);
+
+        void onColorChanged(int index);
+    }
+
+    public ArrayList<Pair<Path, Paint>> getAllPairs() {
         return allPairs;
     }
 
     public void setAllPairs(ArrayList<Pair<Path, Paint>> allPairs) {
-        this.allPairs.setValue(allPairs);
+        this.allPairs = allPairs;
+        sharedListener.onPairsChanged(allPairs);
     }
 
-    public MutableLiveData<Boolean> getEraserOn() {
-        return eraserOn;
+    public void setEraserOn(boolean eraserOn) {
+        sharedListener.onEraserChanged(eraserOn);
     }
 
-    public void setEraserOn(Boolean eraserOn) {
-        this.eraserOn.setValue(eraserOn);
+    public void setColorIndex(int colorIndex) {
+        sharedListener.onColorChanged(colorIndex);
     }
 
-    public MutableLiveData<Integer> getColorIndex() {
-        return colorIndex;
-    }
-
-    public void setColorIndex(Integer colorIndex) {
-        this.colorIndex.setValue(colorIndex);
+    public void setSharedListener(SharedListener sharedListener) {
+        this.sharedListener = sharedListener;
     }
 }
