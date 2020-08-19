@@ -38,7 +38,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_weight="1"
             app:cardBackgroundColor="@color/scribblePadColor"
             app:cardCornerRadius="15dp">
@@ -74,12 +74,24 @@
         android:clickable="true"
         android:onClick="handleEraser"
         app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="@+id/resetBt"
         app:layout_constraintEnd_toStartOf="@+id/resetBt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/resetBt"
+        app:maxImageSize="18dp"
         app:rippleColor="@android:color/white"
         app:srcCompat="@drawable/eraser_icon"
         app:tint="@android:color/white" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/colorOption"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/resetBt"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,6 +20,8 @@ public class DrawingPad extends View {
 
     private ArrayList<Pair<Path, Paint>> allPairs;
     private boolean eraserOn;
+    private String[] colors;
+    private int colorIndex = 0;
 
     private DrawingPadListener listener;
 
@@ -27,13 +29,17 @@ public class DrawingPad extends View {
         void onDrawingChanged(ArrayList<Pair<Path, Paint>> newList);
     }
 
+    public void setAllPairs(ArrayList<Pair<Path, Paint>> allPairs) {
+        this.allPairs = allPairs;
+        invalidate();
+    }
+
     public void setEraserOn(boolean eraserOn) {
         this.eraserOn = eraserOn;
     }
 
-    public void setAllPairs(ArrayList<Pair<Path, Paint>> allPairs) {
-        this.allPairs = allPairs;
-        invalidate();
+    public void setColorIndex(int colorIndex) {
+        this.colorIndex = colorIndex;
     }
 
     public void setListener(DrawingPadListener listener) {
@@ -44,6 +50,7 @@ public class DrawingPad extends View {
         super(context, attrs);
 
         allPairs = new ArrayList<>();
+        colors = context.getResources().getStringArray(R.array.scribbleColors);
     }
 
     @Override
@@ -85,12 +92,12 @@ public class DrawingPad extends View {
         path = new Path();
         path.moveTo(x, y);
         paint = new Paint();
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.parseColor(colors[colorIndex]));
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setAntiAlias(true);
-        paint.setStrokeWidth(5f);
+        paint.setStrokeWidth(10f);
         return new Pair<>(path, paint);
     }
 

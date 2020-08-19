@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">Scribble Pads</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="colorOption">
+        <item>Black</item>
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Violet</item>
+        <item>Yellow</item>
+    </string-array>
+    <string-array name="scribbleColors">
+        <item>#000000</item>
+        <item>#FF0000</item>
+        <item>#246DFF</item>
+        <item>#13FF6B</item>
+        <item>#C849FF</item>
+        <item>#FFFF00</item>
+    </string-array>
 </resources>

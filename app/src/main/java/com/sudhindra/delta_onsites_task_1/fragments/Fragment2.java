@@ -40,6 +40,7 @@ public class Fragment2 extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel.getEraserOn().observe(requireActivity(), eraserOn -> binding.drawingPad2.setEraserOn(eraserOn));
         viewModel.getAllPairs().observe(requireActivity(), newPairs -> binding.drawingPad2.setAllPairs(newPairs));
+        viewModel.getColorIndex().observe(requireActivity(), index -> binding.drawingPad2.setColorIndex(index));
     }
 
     @Override

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.sudhindra.delta_onsites_task_1.R;
 import com.sudhindra.delta_onsites_task_1.databinding.ActivityMainBinding;
@@ -13,7 +14,7 @@ import com.sudhindra.delta_onsites_task_1.viewmodels.SharedViewModel;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ActivityMainBinding binding;
 
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         sharedViewModel.getEraserOn().observe(this, on -> eraserOn = on);
+
+        binding.spinner.setOnItemSelectedListener(this);
     }
 
     public void resetDrawings(View view) {
@@ -44,5 +47,17 @@ public class MainActivity extends AppCompatActivity {
             binding.eraserBt.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
         }
         sharedViewModel.setEraserOn(!eraserOn);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        sharedViewModel.setColorIndex(i);
+        if (eraserOn)
+            handleEraser(binding.eraserBt);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

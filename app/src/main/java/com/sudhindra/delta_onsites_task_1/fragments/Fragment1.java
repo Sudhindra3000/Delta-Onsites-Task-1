@@ -39,7 +39,9 @@ public class Fragment1 extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel.getEraserOn().observe(requireActivity(), eraserOn -> binding.drawingPad.setEraserOn(eraserOn));
+        viewModel.getEraserOn().observe(requireActivity(), on -> binding.drawingPad.setEraserOn(on));
         viewModel.getAllPairs().observe(requireActivity(), newPairs -> binding.drawingPad.setAllPairs(newPairs));
+        viewModel.getColorIndex().observe(requireActivity(), index -> binding.drawingPad.setColorIndex(index));
     }
 
     @Override
