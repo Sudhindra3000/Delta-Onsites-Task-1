@@ -23,6 +23,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             app:cardBackgroundColor="@color/scribblePadColor"
             app:cardCornerRadius="15dp">
@@ -38,7 +39,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             app:cardBackgroundColor="@color/scribblePadColor"
             app:cardCornerRadius="15dp">
@@ -80,7 +81,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/resetBt"
         app:maxImageSize="18dp"
-        app:rippleColor="@android:color/white"
         app:srcCompat="@drawable/eraser_icon"
         app:tint="@android:color/white" />
 

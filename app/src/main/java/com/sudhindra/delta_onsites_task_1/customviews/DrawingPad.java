@@ -87,11 +87,9 @@ public class DrawingPad extends View {
     }
 
     private Pair<Path, Paint> getDrawingPair(float x, float y) {
-        Path path;
-        Paint paint;
-        path = new Path();
+        Path path = new Path();
         path.moveTo(x, y);
-        paint = new Paint();
+        Paint paint = new Paint();
         paint.setColor(Color.parseColor(colors[colorIndex]));
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
